@@ -9,6 +9,7 @@ import { Music, Plus, Settings, History, LogOut } from 'lucide-react';
 import { PlatformConnections } from '@/components/PlatformConnections';
 import { SyncConfigurations } from '@/components/SyncConfigurations';
 import { SyncHistory } from '@/components/SyncHistory';
+import { PlaylistTransfer } from '@/components/PlaylistTransfer';
 
 export default function Dashboard() {
   const { user, signOut, loading } = useAuth();
@@ -72,10 +73,14 @@ export default function Dashboard() {
         </div>
 
         <Tabs defaultValue="connections" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
             <TabsTrigger value="connections" className="flex items-center gap-2">
               <Settings className="w-4 h-4" />
               Connections
+            </TabsTrigger>
+            <TabsTrigger value="transfer" className="flex items-center gap-2">
+              <Music className="w-4 h-4" />
+              Transfer
             </TabsTrigger>
             <TabsTrigger value="syncs" className="flex items-center gap-2">
               <Plus className="w-4 h-4" />
@@ -97,6 +102,20 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <PlatformConnections />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="transfer" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Playlist Transfer</CardTitle>
+                <CardDescription>
+                  Transfer playlists between platforms and sync linked playlists.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <PlaylistTransfer />
               </CardContent>
             </Card>
           </TabsContent>

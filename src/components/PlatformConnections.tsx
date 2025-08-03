@@ -25,19 +25,19 @@ const platforms = [
     id: 'apple_music', 
     name: 'Apple Music', 
     color: 'bg-red-500',
-    description: 'Connect your Apple Music account (coming soon)'
+    description: 'Connect your Apple Music account to sync playlists'
   },
   { 
     id: 'youtube_music', 
     name: 'YouTube Music', 
     color: 'bg-red-600',
-    description: 'Connect your YouTube Music account (coming soon)'
+    description: 'Connect your YouTube Music account to sync playlists'
   },
   { 
     id: 'amazon_music', 
     name: 'Amazon Music', 
     color: 'bg-blue-500',
-    description: 'Connect your Amazon Music account (coming soon)'
+    description: 'Connect your Amazon Music account to sync playlists'
   }
 ];
 
@@ -73,20 +73,37 @@ export function PlatformConnections() {
     }
   };
 
-  const connectSpotify = async () => {
+  const connectPlatform = async (platformId: string) => {
     try {
-      // Initiate Spotify OAuth flow
-      const response = await supabase.functions.invoke('spotify-auth', {
-        body: { action: 'connect' }
-      });
-
-      if (response.error) throw response.error;
-
-      // Redirect to Spotify authorization
-      window.location.href = response.data.authUrl;
+      if (platformId === 'spotify') {
+        const response = await supabase.functions.invoke('spotify-auth', {
+          body: { action: 'connect' }
+        });
+        if (response.error) throw response.error;
+        window.location.href = response.data.authUrl;
+      } else if (platformId === 'apple_music') {
+        // Apple Music requires user tokens - show instructions
+        toast({
+          title: "Apple Music Setup Required",
+          description: "Please follow the Apple Music developer documentation to get your tokens",
+          variant: "default"
+        });
+      } else if (platformId === 'youtube_music') {
+        const response = await supabase.functions.invoke('youtube-music-auth', {
+          body: { action: 'connect' }
+        });
+        if (response.error) throw response.error;
+        window.location.href = response.data.authUrl;
+      } else if (platformId === 'amazon_music') {
+        const response = await supabase.functions.invoke('amazon-music-auth', {
+          body: { action: 'connect' }
+        });
+        if (response.error) throw response.error;
+        window.location.href = response.data.authUrl;
+      }
     } catch (error: any) {
       toast({
-        title: "Error connecting to Spotify",
+        title: `Error connecting to ${platformId}`,
         description: error.message,
         variant: "destructive"
       });
@@ -177,28 +194,22 @@ export function PlatformConnections() {
                   <div></div>
                 )}
                 
-                {platform.id === 'spotify' ? (
-                  connected ? (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => connection && disconnectPlatform(connection.id, platform.name)}
-                    >
-                      Disconnect
-                    </Button>
-                  ) : (
-                    <Button 
-                      size="sm"
-                      onClick={connectSpotify}
-                      className="bg-green-500 hover:bg-green-600"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Connect
-                    </Button>
-                  )
+                {connected ? (
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => connection && disconnectPlatform(connection.id, platform.name)}
+                  >
+                    Disconnect
+                  </Button>
                 ) : (
-                  <Button size="sm" disabled variant="outline">
-                    Coming Soon
+                  <Button 
+                    size="sm"
+                    onClick={() => connectPlatform(platform.id)}
+                    className={platform.color.replace('bg-', 'bg-') + ' hover:opacity-90'}
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Connect
                   </Button>
                 )}
               </div>

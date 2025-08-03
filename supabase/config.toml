@@ -2,3 +2,15 @@ project_id = "xhmdfznmxddsgjtyqnnt"
 
 [functions.spotify-auth]
 verify_jwt = true
+
+[functions.apple-music-auth]
+verify_jwt = true
+
+[functions.youtube-music-auth]
+verify_jwt = true
+
+[functions.amazon-music-auth]
+verify_jwt = true
+
+[functions.playlist-transfer]
+verify_jwt = true
