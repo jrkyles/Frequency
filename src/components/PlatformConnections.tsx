@@ -76,10 +76,13 @@ export function PlatformConnections() {
   const connectPlatform = async (platformId: string) => {
     try {
       if (platformId === 'spotify') {
+        console.log('Initiating Spotify connection...');
         const response = await supabase.functions.invoke('spotify-auth', {
           body: { action: 'connect' }
         });
+        console.log('Spotify auth response:', response);
         if (response.error) throw response.error;
+        console.log('Redirecting to:', response.data.authUrl);
         window.location.href = response.data.authUrl;
       } else if (platformId === 'apple_music') {
         // Apple Music requires user tokens - show instructions
