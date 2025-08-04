@@ -77,9 +77,17 @@ export function PlatformConnections() {
     try {
       if (platformId === 'spotify') {
         console.log('Initiating Spotify connection...');
-        const response = await supabase.functions.invoke('spotify-auth', {
+        
+        // Add timeout to the function call
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Request timeout')), 10000)
+        );
+        
+        const functionCall = supabase.functions.invoke('spotify-auth', {
           body: { action: 'connect' }
         });
+        
+        const response = await Promise.race([functionCall, timeoutPromise]) as any;
         console.log('Full Spotify response:', JSON.stringify(response, null, 2));
         
         if (response.error) {
