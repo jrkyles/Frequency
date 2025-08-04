@@ -80,8 +80,18 @@ export function PlatformConnections() {
         const response = await supabase.functions.invoke('spotify-auth', {
           body: { action: 'connect' }
         });
-        console.log('Spotify auth response:', response);
-        if (response.error) throw response.error;
+        console.log('Full Spotify response:', JSON.stringify(response, null, 2));
+        
+        if (response.error) {
+          console.error('Spotify response error:', response.error);
+          throw response.error;
+        }
+        
+        if (!response.data || !response.data.authUrl) {
+          console.error('No authUrl in response:', response.data);
+          throw new Error('No authentication URL received');
+        }
+        
         console.log('Redirecting to:', response.data.authUrl);
         window.location.href = response.data.authUrl;
       } else if (platformId === 'apple_music') {
