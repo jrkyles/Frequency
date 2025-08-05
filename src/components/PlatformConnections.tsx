@@ -98,7 +98,25 @@ export function PlatformConnections() {
         }
         
         console.log('Redirecting to:', response.data.authUrl);
-        window.location.href = response.data.authUrl;
+        
+        // Add debugging for the redirect
+        try {
+          console.log('About to redirect to Spotify...');
+          console.log('Current window location:', window.location.href);
+          console.log('Target URL:', response.data.authUrl);
+          
+          // Try the redirect
+          window.location.href = response.data.authUrl;
+          
+          // This shouldn't execute if redirect works
+          setTimeout(() => {
+            console.log('Redirect may have failed - still on same page');
+          }, 1000);
+          
+        } catch (redirectError) {
+          console.error('Error during redirect:', redirectError);
+          throw new Error(`Redirect failed: ${redirectError.message}`);
+        }
       } else if (platformId === 'apple_music') {
         // Apple Music requires user tokens - show instructions
         toast({
