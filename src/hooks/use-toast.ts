@@ -168,6 +168,7 @@ function toast({ ...props }: Toast) {
   }
 }
 
+// Custom hook for toast notifications in Frequency
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)
 

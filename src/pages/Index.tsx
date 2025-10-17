@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Music, Shuffle, Clock, Zap, ArrowRight } from 'lucide-react';
 
+// Index (landing) page for Frequency
 const Index = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();

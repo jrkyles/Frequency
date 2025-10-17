@@ -1,3 +1,4 @@
+// Main entry point for the Frequency app
 import React from "react";
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'

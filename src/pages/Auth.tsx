@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Music } from 'lucide-react';
 
+// Authentication page for Frequency
 export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -11,6 +11,7 @@ import { SyncConfigurations } from '@/components/SyncConfigurations';
 import { SyncHistory } from '@/components/SyncHistory';
 import { PlaylistTransfer } from '@/components/PlaylistTransfer';
 
+// Dashboard page for Frequency
 export default function Dashboard() {
   const { user, signOut, loading } = useAuth();
   const navigate = useNavigate();

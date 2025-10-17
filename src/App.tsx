@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import SpotifyCallback from "./pages/SpotifyCallback";
 import NotFound from "./pages/NotFound";
 
+// Main app component for Frequency
 const queryClient = new QueryClient();
 
 const App = () => (

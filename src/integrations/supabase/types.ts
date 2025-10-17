@@ -1,3 +1,5 @@
+// Supabase types for Frequency
+
 export type Json =
   | string
   | number

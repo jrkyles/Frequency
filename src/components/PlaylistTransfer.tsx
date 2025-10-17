@@ -10,6 +10,8 @@ import { useToast } from '@/hooks/use-toast';
 import { ArrowRight, Music, Copy, RefreshCw, Link } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
+// Playlist transfer feature for Frequency
+
 interface Playlist {
   id: string;
   name: string;

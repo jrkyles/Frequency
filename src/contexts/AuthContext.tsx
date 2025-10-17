@@ -3,6 +3,7 @@ import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
+// Authentication context for user sessions in Frequency
 interface AuthContextType {
   user: User | null;
   session: Session | null;

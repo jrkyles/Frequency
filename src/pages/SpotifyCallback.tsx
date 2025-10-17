@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
+// Spotify callback handler for Frequency
 const SpotifyCallback = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

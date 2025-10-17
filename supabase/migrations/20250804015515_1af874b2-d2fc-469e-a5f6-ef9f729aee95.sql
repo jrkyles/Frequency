@@ -1,3 +1,5 @@
+-- Migration for Frequency database
+
 -- Create platform_connections table to store user connections to music platforms
 CREATE TABLE IF NOT EXISTS public.platform_connections (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,

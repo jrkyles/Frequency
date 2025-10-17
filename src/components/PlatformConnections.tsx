@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Music, Check, X, ExternalLink } from 'lucide-react';
 
+// Platform connections feature for Frequency
+
 interface PlatformConnection {
   id: string;
   platform: string;

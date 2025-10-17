@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Play, Pause, Trash2, Clock } from 'lucide-react';
 
+// Sync configurations feature for Frequency
 interface SyncConfig {
   id: string;
   name: string;

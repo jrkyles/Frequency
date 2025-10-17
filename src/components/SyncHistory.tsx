@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, XCircle, Clock, AlertCircle } from 'lucide-react';
 
+// Sync history feature for Frequency
+
 interface SyncHistoryItem {
   id: string;
   status: 'pending' | 'in_progress' | 'completed' | 'failed';

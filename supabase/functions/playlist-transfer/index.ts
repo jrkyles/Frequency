@@ -37,6 +37,7 @@ Deno.serve(async (req) => {
     const { action, sourcePlaylistId, sourcePlatform, targetPlatform, playlistName, playlistDescription } = body
 
     if (action === 'transfer_playlist') {
+      // Playlist transfer function for Frequency
       // Get source platform connection
       const { data: sourceConnection } = await supabaseClient
         .from('platform_connections')

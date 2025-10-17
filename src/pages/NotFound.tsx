@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+// Not Found (404) page for Frequency
 const NotFound = () => {
   const location = useLocation();
 

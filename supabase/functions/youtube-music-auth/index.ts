@@ -28,6 +28,7 @@ Deno.serve(async (req) => {
     const body = await req.json()
     const { action, code } = body
 
+    // YouTube Music authentication for Frequency
     if (action === 'connect') {
       const clientId = Deno.env.get('YOUTUBE_CLIENT_ID')
       const redirectUri = `${req.headers.get('origin')}/auth/callback/youtube`
