@@ -16,3 +16,71 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
   }
 });
+
+// Resolve Python API base (optional). Falls back to Supabase Edge Functions when unset.
+const _env = (typeof import.meta !== 'undefined' ? (import.meta as any).env : undefined) as any;
+const _win = (typeof window !== 'undefined' ? (window as any) : {}) as any;
+export const API_BASE: string = (_env && _env.VITE_API_BASE) || _win.VITE_API_BASE || "";
+
+async function apiInvoke(path: string, options?: RequestInit) {
+  if (!API_BASE) throw new Error("API base not configured. Set VITE_API_BASE to use Python backend.");
+  const res = await fetch(`${API_BASE}${path}`, {
+    headers: { "Content-Type": "application/json" },
+    ...options,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || `Request failed: ${res.status}`);
+  }
+  return res.json();
+}
+
+// Keep a reference to the original invoke to preserve behavior when API_BASE is not set
+const originalInvoke = (supabase.functions.invoke as any).bind(supabase.functions);
+
+// Monkey-patch invoke to route to Python backend when configured
+(supabase.functions as any).invoke = async (name: string, args?: { body?: any }) => {
+  if (!API_BASE) {
+    return originalInvoke(name, args);
+  }
+
+  const body = args?.body || {};
+
+  try {
+    switch (name) {
+      case 'playlist-transfer': {
+        if (body.action === 'transfer_playlist') {
+          const data = await apiInvoke('/playlist-transfer', {
+            method: 'POST',
+            body: JSON.stringify(body),
+          });
+          return { data, error: null };
+        }
+        if (body.action === 'sync_linked_playlists') {
+          const data = await apiInvoke('/playlist-transfer/sync-linked', { method: 'POST' });
+          return { data, error: null };
+        }
+        throw new Error('Unsupported action for playlist-transfer');
+      }
+      case 'spotify-auth': {
+        // Only connect/start supported in Python backend
+        const data = await apiInvoke('/auth/spotify/start', { method: 'POST' });
+        return { data, error: null };
+      }
+      case 'sync-playlists': {
+        const data = await apiInvoke('/sync', { method: 'POST', body: JSON.stringify(body) });
+        return { data, error: null };
+      }
+      // Not yet implemented in Python backend; fall back to original invoke
+      case 'apple-music-auth':
+      case 'youtube-music-auth':
+      case 'amazon-music-auth': {
+        return originalInvoke(name, args);
+      }
+      default:
+        return originalInvoke(name, args);
+    }
+  } catch (err: any) {
+    return { data: null, error: err };
+  }
+};

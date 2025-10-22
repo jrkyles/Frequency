@@ -20,6 +20,7 @@ Frequency is a web application for transferring and synchronizing playlists acro
 - shadcn-ui
 - Tailwind CSS
 - Supabase (backend/auth)
+- Optional: FastAPI (Python) backend for selected endpoints
 
 ## Screenshot
 ![App Screenshot](public/placeholder.svg)
@@ -39,7 +40,27 @@ npm install
 npm run dev
 ```
 
-### Deployment
+### Optional Python backend
+If you prefer to use the Python backend for certain endpoints:
+
+```sh
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Then create a `.env.local` at the repo root with:
+
+```sh
+VITE_API_BASE=http://localhost:8000
+```
+
+Unset `VITE_API_BASE` to use Supabase Edge Functions instead.
+
+## Deployment
 You can deploy Frequency using your preferred platform.
 
 ## Contributing
