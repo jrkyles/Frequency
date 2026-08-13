@@ -22,9 +22,6 @@ Frequency is a web application for transferring and synchronizing playlists acro
 - Supabase (backend/auth)
 - Optional: FastAPI (Python) backend for selected endpoints
 
-## Screenshot
-![App Screenshot](public/placeholder.svg)
-
 ## Getting Started
 
 ### Prerequisites
@@ -34,7 +31,7 @@ Frequency is a web application for transferring and synchronizing playlists acro
 Clone the repository and install dependencies:
 
 ```sh
-git clone <YOUR_GIT_URL>
+git clone https://github.com/jrkyles/Frequency.git
 cd Frequency
 npm install
 npm run dev
@@ -70,7 +67,7 @@ Contributions are welcome. See CONTRIBUTING.md for guidelines.
 This project is licensed under the MIT License. See LICENSE for details.
 
 ## Author
-[Your Name Here]
+[James Kyles](https://github.com/jrkyles)
 
 ---
 
